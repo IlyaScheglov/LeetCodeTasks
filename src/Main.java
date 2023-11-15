@@ -3,16 +3,10 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        int[] nums = {-1,0,1,2,-1,-4};
-        List<List<Integer>> answer = threeSum(nums);
-        answer.forEach(a -> {
-            StringBuilder builder = new StringBuilder();
-            builder.append("[");
-            a.forEach(aDet -> builder.append(aDet + " "));
-            builder.append("]");
-            System.out.println(builder.toString());
-        });
-        System.out.println("Hello World!");
+        int[] ints = {1, 2, 3};
+        int target = 4;
+        int answer = searchInsert(ints, target);
+        System.out.println(answer);
     }
 
     private static int[] twoSum(int[] nums, int target) {
@@ -168,5 +162,25 @@ public class Main {
         }
 
         return new ArrayList<>(resultList);
+    }
+
+
+
+
+    private static int searchInsert(int[] nums, int target) {
+        int index = nums.length;
+
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == target){
+                index = i;
+                break;
+            }
+            else if(target >= nums[i]){
+                index = i;
+                break;
+            }
+        }
+
+        return index;
     }
 }
