@@ -183,4 +183,80 @@ public class Main {
 
         return index;
     }
+
+    private static int[] plusOne(int[] digits) {
+        int[] newDigits = new int[digits.length + 1];
+        newDigits[0] = 0;
+
+        for(int j = 0; j < digits.length; j++){
+            newDigits[j + 1] = digits[j];
+        }
+        for(int i = newDigits.length - 1; i >= 0; i--){
+            if(newDigits[i] == 9){
+                newDigits[i] = 0;
+            }
+            else{
+                newDigits[i] = newDigits[i] + 1;
+                break;
+            }
+        }
+
+        if(newDigits[0] != 0){
+            return newDigits;
+        }
+        else{
+            int[] finalDigits = new int[digits.length];
+            for(int k = 0; k < digits.length; k++){
+                finalDigits[k] = newDigits[k + 1];
+            }
+            return finalDigits;
+        }
+    }
+
+    private static int mySqrt(int x) {
+        return (int)Math.floor(Math.sqrt(x));
+    }
+
+    private static int reverse(int x) {
+        if((x >= Math.pow(-2, 31)) && (x <= Math.pow(2, 31))){
+            int multiply;
+            if(x >= 0){
+                multiply = 1;
+            }
+            else{
+                multiply = -1;
+            }
+            String xInStr = String.valueOf(Math.abs(x));
+            return reversAndParseInt(xInStr, multiply);
+        }
+        else{
+            return 0;
+        }
+    }
+
+    private static int reversAndParseInt(String str, int multiply){
+        char[] strInChars = str.toCharArray();
+        boolean isItStartZero = true;
+        String finalStr = "";
+
+        for(int i = strInChars.length - 1; i >= 0; i--){
+            if((isItStartZero == true) && (strInChars[i] == 0)){
+                continue;
+            }
+            else if((isItStartZero == true) && (strInChars[i] != 0)){
+                finalStr = finalStr + strInChars[i];
+                isItStartZero = false;
+            }
+            else if(isItStartZero == false){
+                finalStr = finalStr + strInChars[i];
+            }
+        }
+
+        try{
+            return Integer.parseInt(finalStr) * multiply;
+        }
+        catch (Exception e){
+            return 0;
+        }
+    }
 }
