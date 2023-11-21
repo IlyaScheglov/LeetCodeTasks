@@ -1,17 +1,12 @@
-
-
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
-
-
     public static void main(String[] args) {
-        int[] arrayToSort = {5, 3, 99, 76, 12, 100, 10, 2, 54, 47};
-        int[] sortedArray = bubbleSorting(arrayToSort);
-        System.out.println("Отсортированный массив:");
-        for(int i = 0; i < sortedArray.length; i++){
-            System.out.println(sortedArray[i] + " ");
-        }
+        int[] ints = {1, 2, 3};
+        int target = 4;
+        int answer = searchInsert(ints, target);
+        System.out.println(answer);
     }
 
     private static int[] twoSum(int[] nums, int target) {
@@ -263,22 +258,5 @@ public class Main {
         catch (Exception e){
             return 0;
         }
-    }
-
-    private static int[] bubbleSorting(int[] array){
-        int countChanges = 0;
-        do {
-            countChanges = 0;
-            for(int i = 0; i < array.length - 1; i++){
-                if(array[i] > array[i + 1]){
-                    int num = array[i];
-                    array[i] = array[i + 1];
-                    array[i + 1] = num;
-                    countChanges += 1;
-                }
-            }
-        }while (countChanges > 0);
-
-        return array;
     }
 }
