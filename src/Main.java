@@ -3,8 +3,7 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        String s = "pwwkew";
-        int answer = lengthOfLongestSubstring(s);
+        String answer = countAndSay(4);
         System.out.println(answer);
     }
 
@@ -281,5 +280,80 @@ public class Main {
         else{
             return 0;
         }
+    }
+
+    private static int removeElement(int[] nums, int val) {
+        int read = 0;
+        int write = 0;
+        int countElementsRemove = 0;
+
+        while(read < nums.length) {
+            if (nums[read] == val) {
+                ++read;
+                ++countElementsRemove;
+            } else {
+                nums[write] = nums[read];
+                ++read;
+                ++write;
+            }
+        }
+
+        return nums.length - countElementsRemove;
+    }
+
+    private static LinkedList<Integer> addTwoNumbers(LinkedList<Integer> l1, LinkedList<Integer> l2) {
+        String firstNum = "";
+        String secondNum = "";
+        LinkedList<Integer> resultList = new LinkedList();
+
+        Iterator var5;
+        int i;
+        for(var5 = l1.iterator(); var5.hasNext(); firstNum = "" + i + firstNum) {
+            i = (Integer)var5.next();
+        }
+
+        for(var5 = l2.iterator(); var5.hasNext(); secondNum = "" + i + secondNum) {
+            i = (Integer)var5.next();
+        }
+
+        String resultStr = String.valueOf(Integer.parseInt(firstNum) + Integer.parseInt(secondNum));
+
+        for(i = resultStr.length() - 1; i >= 0; --i) {
+            resultList.add(Integer.parseInt(String.valueOf(resultStr.charAt(i))));
+        }
+
+        return resultList;
+    }
+
+    private static String countAndSay(int n) {
+        if (n > 1 && n < 30) {
+            StringBuilder builder = new StringBuilder("1");
+
+            for(int i = 2; i <= n; ++i) {
+                builder = appendNewNumsToBuilder(builder.toString());
+            }
+
+            return builder.toString();
+        } else {
+            return "1";
+        }
+    }
+
+    private static StringBuilder appendNewNumsToBuilder(String previous) {
+        StringBuilder result = new StringBuilder();
+        int i = 0;
+
+        while(i < previous.length()) {
+            char num = previous.charAt(i);
+
+            int count;
+            for(count = 0; i < previous.length() && num == previous.charAt(i); ++i) {
+                ++count;
+            }
+
+            result.append(count).append(num);
+        }
+
+        return result;
     }
 }
