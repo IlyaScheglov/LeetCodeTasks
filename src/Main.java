@@ -3,7 +3,8 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        String answer = countAndSay(4);
+        String s = "pwwkew";
+        int answer = lengthOfLongestSubstring(s);
         System.out.println(answer);
     }
 
