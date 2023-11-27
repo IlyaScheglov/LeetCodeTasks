@@ -315,6 +315,7 @@ public class Main {
         }
     }
 
+
     private static StringBuilder appendNewNumsToBuilder(String previous) {
         StringBuilder result = new StringBuilder();
         int i = 0;
