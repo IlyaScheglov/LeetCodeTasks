@@ -3,8 +3,7 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        String s = "pwwkew";
-        int answer = lengthOfLongestSubstring(s);
+        String answer = countAndSay(4);
         System.out.println(answer);
     }
 
@@ -259,30 +258,6 @@ public class Main {
         }
     }
 
-    private static int lengthOfLongestSubstring(String s) {
-        if(s.length() > 0) {
-            List<Integer> results = new ArrayList<>();
-            for (int j = 0; j < s.length(); j++) {
-                List<Character> charsContains = new ArrayList<>();
-                int result = 0;
-                for (int i = j; i < s.length(); i++) {
-                    char charToCheck = s.charAt(i);
-                    if (charsContains.contains(charToCheck)) {
-                        break;
-                    } else {
-                        charsContains.add(charToCheck);
-                        result++;
-                    }
-                }
-                results.add(result);
-            }
-            return Collections.max(results);
-        }
-        else{
-            return 0;
-        }
-    }
-
     private static int removeElement(int[] nums, int val) {
         int read = 0;
         int write = 0;
@@ -339,6 +314,7 @@ public class Main {
             return "1";
         }
     }
+
 
     private static StringBuilder appendNewNumsToBuilder(String previous) {
         StringBuilder result = new StringBuilder();
