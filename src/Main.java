@@ -3,7 +3,7 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        String answer = countAndSay(4);
+        boolean answer = isNumber(".3");
         System.out.println(answer);
     }
 
@@ -332,5 +332,83 @@ public class Main {
         }
 
         return result;
+    }
+
+    private static int majorityElement(int[] nums) {
+        int n = nums.length / 2;
+        int majorityElment = 0;
+
+        for(int i = 0; i < nums.length; ++i) {
+            int count = 0;
+            int el = nums[i];
+
+            for(int j = 0; j < nums.length; ++j) {
+                if (el == nums[j]) {
+                    ++count;
+                }
+            }
+
+            if (count > n) {
+                majorityElment = el;
+                break;
+            }
+        }
+
+        return majorityElment;
+    }
+
+    private static boolean isNumber(String s) {
+        boolean thereIsDigit = false;
+        boolean thereIsE = false;
+        boolean thereIsDot = false;
+
+        for(int i = 0; i < s.length(); ++i) {
+            char charToCheck = s.charAt(i);
+            if (Character.isDigit(charToCheck)) {
+                thereIsDigit = true;
+            } else if (charToCheck == '.') {
+                if (i == s.length() - 1) {
+                    return false;
+                }
+
+                if (!Character.isDigit(s.charAt(i + 1))) {
+                    return false;
+                }
+
+                if (thereIsE) {
+                    return false;
+                }
+
+                thereIsDot = true;
+            } else if (charToCheck != '+' && charToCheck != '-') {
+                if (charToCheck != 'e' && charToCheck != 'E') {
+                    return false;
+                }
+
+                if (thereIsE || !thereIsDigit || i == s.length() - 1) {
+                    return false;
+                }
+
+                thereIsE = true;
+            } else {
+                if (i == 2) {
+                    return false;
+                }
+
+                if (i > 0 && s.charAt(i - 1) != 'e' && s.charAt(i - 1) != 'E') {
+                    return false;
+                }
+
+                if (i == s.length() - 1) {
+                    return false;
+                }
+            }
+        }
+
+        if (thereIsDigit) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
