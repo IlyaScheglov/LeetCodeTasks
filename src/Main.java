@@ -1,10 +1,11 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.lang.Math.abs;
+
 public class Main {
     public static void main(String[] args) {
-        boolean answer = isNumber(".3");
-        System.out.println(answer);
+        System.out.println("All Good!");
     }
 
     private static int[] twoSum(int[] nums, int target) {
@@ -224,7 +225,7 @@ public class Main {
             else{
                 multiply = -1;
             }
-            String xInStr = String.valueOf(Math.abs(x));
+            String xInStr = String.valueOf(abs(x));
             return reversAndParseInt(xInStr, multiply);
         }
         else{
@@ -409,6 +410,95 @@ public class Main {
             return true;
         } else {
             return false;
+        }
+    }
+
+
+    private static int maxArea(int[] height) {
+        int leftElement = 0;
+        int rightElement = height.length - 1;
+        int maxSize = 0;
+
+        while(leftElement < rightElement){
+            int size = 0;
+            if(height[leftElement] < height[rightElement]){
+                size = height[leftElement] * (rightElement - leftElement);
+                leftElement++;
+            }
+            else{
+                size = height[rightElement] * (rightElement - leftElement);
+                rightElement--;
+            }
+            if(maxSize < size){
+                maxSize = size;
+            }
+        }
+
+        return maxSize;
+    }
+
+
+    private static void nextPermutation(int[] nums) {
+        if(nums.length > 1) {
+            int preElementIndex = 0;
+            boolean thereIsPreElementIndex = false;
+
+            int checkElementIndex = nums.length - 1;
+            while (true) {
+                if (nums[checkElementIndex] <= nums[checkElementIndex - 1]) {
+                    if (checkElementIndex == 1) {
+                        nums = bubbleSorting(nums);
+                        break;
+                    }
+                    checkElementIndex--;
+                } else {
+                    preElementIndex = checkElementIndex - 1;
+                    thereIsPreElementIndex = true;
+                    break;
+                }
+            }
+
+            if (thereIsPreElementIndex == true) {
+                int[] podArray = new int[nums.length - (preElementIndex + 1)];
+                for (int i = preElementIndex + 1; i < nums.length; i++) {
+                    podArray[i - (preElementIndex + 1)] = nums[i];
+                }
+                podArray = bubbleSorting(podArray);
+
+                for (int j = 0; j < podArray.length; j++) {
+                    if (podArray[j] > nums[preElementIndex]) {
+                        int intermediate = nums[preElementIndex];
+                        nums[preElementIndex] = podArray[j];
+                        podArray[j] = intermediate;
+                        break;
+                    }
+                }
+
+                for (int k = preElementIndex + 1; k < nums.length; k++) {
+                    nums[k] = podArray[k - (preElementIndex + 1)];
+                }
+            }
+        }
+    }
+
+    private static int[] bubbleSorting(int[] array){
+        if(array.length == 1){
+            return array;
+        }
+        else{
+            int changes = 0;
+            do{
+                changes = 0;
+                for(int i = 0; i < array.length - 1; i++){
+                    if(array[i] > array[i + 1]){
+                        changes++;
+                        int intermediate = array[i];
+                        array[i] = array[i + 1];
+                        array[i + 1] = intermediate;
+                    }
+                }
+            }while(changes > 0);
+            return array;
         }
     }
 }
