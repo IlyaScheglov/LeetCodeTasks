@@ -5,7 +5,8 @@ import static java.lang.Math.abs;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("All Good!");
+        String answer = multiply("2", "3");
+        System.out.println(answer);
     }
 
     private static int[] twoSum(int[] nums, int target) {
@@ -499,6 +500,46 @@ public class Main {
                 }
             }while(changes > 0);
             return array;
+        }
+    }
+
+
+    private static int[] searchRange(int[] nums, int target) {
+        int[] result = {-1, -1};
+        List<Integer> targetIndexes = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == target){
+                targetIndexes.add(i);
+            }
+        }
+
+        if(targetIndexes.size() == 0){
+            return result;
+        }
+        else{
+            result[0] = targetIndexes.get(0);
+            result[1] = targetIndexes.get(targetIndexes.size() - 1);
+            return result;
+        }
+    }
+
+
+    private static String multiply(String num1, String num2) {
+        return String.valueOf(Integer.parseInt(num1) * Integer.parseInt(num2));
+    }
+
+    private static void rotate(int[][] matrix) {
+        int[][] newMatrix = new int[matrix.length][matrix[0].length];
+        for(int i = 0; i < matrix.length; i++){
+            for(int j = 0; j < matrix[0].length; j++){
+                newMatrix[j][matrix.length - (i + 1)] = matrix[i][j];
+            }
+        }
+
+        for(int k = 0; k < matrix.length; k++){
+            for(int l = 0; l < matrix[0].length; l++){
+                matrix[k][l] = newMatrix[k][l];
+            }
         }
     }
 }
