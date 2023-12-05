@@ -5,7 +5,9 @@ import static java.lang.Math.abs;
 
 public class Main {
     public static void main(String[] args) {
-        String answer = multiply("2", "3");
+        int[] nums1 = {1,3};
+        int[] nums2 = {2};
+        double answer = findMedianSortedArrays(nums1, nums2);
         System.out.println(answer);
     }
 
@@ -541,5 +543,32 @@ public class Main {
                 matrix[k][l] = newMatrix[k][l];
             }
         }
+    }
+
+    private static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        double result = 0.00;
+
+        int[] unitedArray = new int[nums1.length + nums2.length];
+        if(unitedArray.length < 1){
+            return result;
+        }
+        for(int i = 0; i < nums1.length; i++){
+            unitedArray[i] = nums1[i];
+        }
+        for(int j = 0; j < nums2.length; j++){
+            unitedArray[j + (nums1.length)] = nums2[j];
+        }
+        unitedArray = bubbleSorting(unitedArray);
+
+        if(unitedArray.length % 2 != 0){
+            result = (double) unitedArray[(int) unitedArray.length / 2];
+        }
+        else{
+            int firstEl = unitedArray[(int) (unitedArray.length / 2) - 1];
+            int secondEl = unitedArray[(int) unitedArray.length / 2];
+            result = (double) (firstEl + secondEl) / 2;
+        }
+
+        return result;
     }
 }
