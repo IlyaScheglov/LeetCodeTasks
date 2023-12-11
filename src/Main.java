@@ -5,9 +5,8 @@ import static java.lang.Math.abs;
 
 public class Main {
     public static void main(String[] args) {
-        int[] nums1 = {1,3};
-        int[] nums2 = {2};
-        double answer = findMedianSortedArrays(nums1, nums2);
+        int[] nums = {0,2,2,1,1};
+        int answer = firstMissingPositive(nums);
         System.out.println(answer);
     }
 
@@ -571,4 +570,69 @@ public class Main {
 
         return result;
     }
+
+
+    private static int strStr(String haystack, String needle) {
+        int result = -1;
+        for(int i = 0; i < haystack.length(); i++){
+            if(haystack.charAt(i) == needle.charAt(0) &&
+                    haystack.length() - i >= needle.length()){
+                boolean isItNeedle = true;
+                for(int j = 0; j < needle.length(); j++){
+                    if(needle.charAt(j) != haystack.charAt(i + j)) {
+                        isItNeedle = false;
+                    }
+                }
+                if(isItNeedle) {
+                    result = i;
+                    break;
+                }
+            }
+            else if(haystack.length() - i < needle.length()) break;
+            }
+        return result;
+    }
+
+
+    private static List<String> generateParenthesis(int n) {
+        List<String> result = new ArrayList<>();
+        recursiveAlgoritmForParenthesis(result, 0, 0, "", n);
+        return result;
+    }
+
+    private static void recursiveAlgoritmForParenthesis(List<String> result, int open, int close,
+                                                        String str, int n){
+        if(str.length() == n * 2){
+            result.add(str);
+            return;
+        }
+        if(open < n){
+            recursiveAlgoritmForParenthesis(result, open + 1, close, str + "(", n);
+        }
+        if(close < open){
+            recursiveAlgoritmForParenthesis(result, open, close + 1, str + ")", n);
+        }
+    }
+
+
+    private static int firstMissingPositive(int[] nums) {
+        Set<Integer> numsInSet = new TreeSet<>();
+        for(int i = 0; i < nums.length; i++){
+            numsInSet.add(nums[i]);
+        }
+        int missingNum = 1;
+        for(int num : numsInSet){
+            if(num > 0){
+                if(num == missingNum){
+                    missingNum++;
+                }
+                else {
+                    break;
+                }
+            }
+        }
+
+        return missingNum;
+    }
+
 }
