@@ -5,8 +5,8 @@ import static java.lang.Math.abs;
 
 public class Main {
     public static void main(String[] args) {
-        int[] nums = {0,2,2,1,1};
-        int answer = firstMissingPositive(nums);
+        int[] array = {3,3,5,0,0,3,1,4};
+        int answer = maxProfit(array);
         System.out.println(answer);
     }
 
@@ -633,6 +633,67 @@ public class Main {
         }
 
         return missingNum;
+    }
+
+
+    private static int lengthOfLastWord(String s) {
+        String[] sAsArray = s.split(" ");
+        return sAsArray[sAsArray.length - 1].length();
+    }
+
+
+    private static int jump(int[] nums) {
+        int lengthOfNums = nums.length;
+        if(lengthOfNums == 1){
+            return 0;
+        }
+        int weAreInIndex = 0;
+        int pointsWeCanJump = nums[weAreInIndex];
+        int steps = 0;
+        if(pointsWeCanJump == lengthOfNums - 1){
+            return 1;
+        }
+
+        while(weAreInIndex < lengthOfNums - 1){
+            int bestVariant = 0;
+            int bestVariantIndex = weAreInIndex;
+            for(int i = 1; i <= pointsWeCanJump; i++){
+                int checkedNum = nums[weAreInIndex + i];
+                if(weAreInIndex + i == lengthOfNums - 1){
+                    bestVariantIndex = weAreInIndex + i;
+                    bestVariant = nums[weAreInIndex + i];
+                    break;
+                }
+                else if(weAreInIndex + i + checkedNum >= bestVariantIndex + bestVariant){
+                    bestVariantIndex = weAreInIndex + i;
+                    bestVariant = checkedNum;
+                }
+            }
+            weAreInIndex = bestVariantIndex;
+            pointsWeCanJump = bestVariant;
+            steps++;
+        }
+
+        return steps;
+    }
+
+
+    private static int maxProfit(int[] prices) {
+        if(prices.length == 1){
+            return 0;
+        }
+        int maxProfit = 0;
+        int maxProfitIndex = 0;
+
+        for(int i = 0; i < prices.length - 2; i++){
+            for(int j = prices.length - 1; j > i; j--){
+                if(prices[j] - prices[i] > maxProfit){
+                    maxProfitIndex = j + 1;
+                }
+            }
+        }
+
+        return maxProfitIndex;
     }
 
 }
