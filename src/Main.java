@@ -1,13 +1,18 @@
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.Math.abs;
 
 public class Main {
     public static void main(String[] args) {
-        int[] array = {3,3,5,0,0,3,1,4};
-        int answer = maxProfit(array);
-        System.out.println(answer);
+        int[][] intervals = {{1,2}, {3,5}, {6,7}, {8,10}, {12,16}};
+        int[] newIntervals = {4,8};
+        int[][] answer = insert(intervals, newIntervals);
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < answer.length; i++){
+            builder.append("{" + answer[i][0] + ", " + answer[i][1] + "}");
+        }
+        System.out.println(builder.toString());
     }
 
     private static int[] twoSum(int[] nums, int target) {
@@ -695,5 +700,64 @@ public class Main {
 
         return maxProfitIndex;
     }
+
+
+    private static String convertToTitle(int columnNumber) {
+        StringBuilder builder = new StringBuilder();
+
+        while(columnNumber > 0){
+            int reminder = (columnNumber - 1) % 26;
+            builder.append(Character.toString((char)(65+reminder)));
+            columnNumber = (columnNumber - 1) / 26;
+        }
+
+        return builder.reverse().toString();
+    }
+
+
+    private static int[][] insert(int[][] intervals, int[] newInterval) {
+        if(intervals.length == 0){
+            int[][] specialResult = {{newInterval[0], newInterval[1]}};
+            return specialResult;
+        }
+        List<Integer> resultInList = new ArrayList<>();
+        boolean isNewIntervalInRes = false;
+
+        for(int i = 0; i < intervals.length; i++){
+            for(int j = 0; j < intervals[0].length; j++){
+                if(!(intervals[i][j] >= newInterval[0] && intervals[i][j] <= newInterval[1])){
+                    resultInList.add(intervals[i][j]);
+                }
+                else{
+                    if(isNewIntervalInRes == false) {
+                        resultInList.add(newInterval[1]);
+                        isNewIntervalInRes = true;
+                    }
+                }
+            }
+        }
+        if(resultInList.size() % 2 != 0){
+            int indexOfInterval = resultInList.indexOf(newInterval[1]);
+            resultInList.remove(resultInList.get(indexOfInterval));
+        }
+
+        int[][] result = new int[resultInList.size() / 2][2];
+        int firstIndex = 0;
+        int secondIndex = 0;
+        for(int a = 0; a < resultInList.size(); a++){
+            if(secondIndex == 0){
+                result[firstIndex][secondIndex] = resultInList.get(a);
+                secondIndex = 1;
+            }
+            else if(secondIndex == 1){
+                result[firstIndex][secondIndex] = resultInList.get(a);
+                secondIndex = 0;
+                firstIndex++;
+            }
+        }
+
+        return result;
+    }
+
 
 }
