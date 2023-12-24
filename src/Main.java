@@ -5,12 +5,11 @@ import static java.lang.Math.abs;
 
 public class Main {
     public static void main(String[] args) {
-        int[][] intervals = {{1,2}, {3,5}, {6,7}, {8,10}, {12,16}};
-        int[] newIntervals = {4,8};
-        int[][] answer = insert(intervals, newIntervals);
+        int[] answer = {2, 6, 7, 1, 9, 0, 22, 19};
+        quickSort(answer, 0, answer.length - 1);
         StringBuilder builder = new StringBuilder();
         for(int i = 0; i < answer.length; i++){
-            builder.append("{" + answer[i][0] + ", " + answer[i][1] + "}");
+            builder.append(" " + answer[i] + " ");
         }
         System.out.println(builder.toString());
     }
@@ -454,7 +453,7 @@ public class Main {
             while (true) {
                 if (nums[checkElementIndex] <= nums[checkElementIndex - 1]) {
                     if (checkElementIndex == 1) {
-                        nums = bubbleSorting(nums);
+                        bubbleSorting(nums);
                         break;
                     }
                     checkElementIndex--;
@@ -470,7 +469,7 @@ public class Main {
                 for (int i = preElementIndex + 1; i < nums.length; i++) {
                     podArray[i - (preElementIndex + 1)] = nums[i];
                 }
-                podArray = bubbleSorting(podArray);
+                bubbleSorting(podArray);
 
                 for (int j = 0; j < podArray.length; j++) {
                     if (podArray[j] > nums[preElementIndex]) {
@@ -485,27 +484,6 @@ public class Main {
                     nums[k] = podArray[k - (preElementIndex + 1)];
                 }
             }
-        }
-    }
-
-    private static int[] bubbleSorting(int[] array){
-        if(array.length == 1){
-            return array;
-        }
-        else{
-            int changes = 0;
-            do{
-                changes = 0;
-                for(int i = 0; i < array.length - 1; i++){
-                    if(array[i] > array[i + 1]){
-                        changes++;
-                        int intermediate = array[i];
-                        array[i] = array[i + 1];
-                        array[i + 1] = intermediate;
-                    }
-                }
-            }while(changes > 0);
-            return array;
         }
     }
 
@@ -562,7 +540,7 @@ public class Main {
         for(int j = 0; j < nums2.length; j++){
             unitedArray[j + (nums1.length)] = nums2[j];
         }
-        unitedArray = bubbleSorting(unitedArray);
+        bubbleSorting(unitedArray);
 
         if(unitedArray.length % 2 != 0){
             result = (double) unitedArray[(int) unitedArray.length / 2];
@@ -759,5 +737,157 @@ public class Main {
         return result;
     }
 
+    private static void bubbleSorting(int[] array){
+        int lengthOfArray = array.length;
+        if(lengthOfArray < 2){
+            return;
+        }
+        int countChanges = 0;
 
+        do{
+            countChanges = 0;
+            for(int i = 0; i < lengthOfArray - 1; i++){
+                if(array[i] > array[i + 1]){
+                    swap(array, i, i + 1);
+                    countChanges++;
+                }
+            }
+        }while(countChanges > 0);
+    }
+
+    private static void selectionSort(int[] array){
+        int lengthOfArray = array.length;
+        if(lengthOfArray < 2){
+            return;
+        }
+
+        for(int i = 0; i < lengthOfArray; i++){
+            int minElement = array[i];
+            int minElementIndex = i;
+            for(int j = i; j < lengthOfArray; j++){
+                if(array[j] < minElement){
+                    minElement = array[j];
+                    minElementIndex = j;
+                }
+            }
+            swap(array, i, minElementIndex);
+        }
+    }
+
+    private static void insertionSort(int[] array){
+        int lengthOfArray = array.length;
+        if(lengthOfArray < 2){
+            return;
+        }
+
+        for(int i = 0; i < lengthOfArray; i++){
+            int checkNum = array[i];
+            for(int j = 0; j < i; j++){
+                if(array[j] > checkNum){
+                    for(int k = i; k > j; k--){
+                        array[k] = array[k - 1];
+                    }
+                    array[j] = checkNum;
+                    break;
+                }
+            }
+        }
+    }
+
+    private static void shuttleSort(int[] array){
+        int lengthOFArray = array.length;
+        if(lengthOFArray < 2){
+            return;
+        }
+
+        for(int i = 1; i < lengthOFArray; i++){
+            for(int j = i; j > 0; j--){
+                if(array[j] < array[j - 1]){
+                    swap(array, j, j - 1);
+                }else{
+                    break;
+                }
+            }
+        }
+    }
+
+    private static void mergeSort(int[] array){
+        int lengthOfArray = array.length;
+        if(lengthOfArray == 1){
+            return;
+        }
+        int middle = lengthOfArray / 2;
+        int[] leftArray = new int[middle];
+        int[] rigthArray = new int[lengthOfArray - middle];
+
+        for(int i = 0; i < middle; i++){
+            leftArray[i] = array[i];
+        }
+        for(int j = middle; j < lengthOfArray; j++){
+            rigthArray[j - middle] = array[j];
+        }
+
+        mergeSort(leftArray);
+        mergeSort(rigthArray);
+        merge(array, leftArray, rigthArray);
+    }
+
+    private static void merge(int[] array, int[] leftArray,
+                              int[] rigthArray){
+        int leftLength = leftArray.length;
+        int rigthLength = rigthArray.length;
+        int l = 0;
+        int r = 0;
+        int finalLength = leftLength + rigthLength;
+
+        for(int index = 0; index < finalLength; index++){
+            if(l == leftLength){
+                array[index] = rigthArray[r];
+                r++;
+            }
+            else if(r == rigthLength){
+                array[index] = leftArray[l];
+                l++;
+            }
+            else if(leftArray[l] <= rigthArray[r]){
+                array[index] = leftArray[l];
+                l++;
+            }
+            else{
+                array[index] = rigthArray[r];
+                r++;
+            }
+        }
+    }
+
+    private static void quickSort(int[] array, int left, int rigth){
+        if(left >= rigth){
+            return;
+        }
+
+        int lengthOfArray = array.length;
+        int pivotIndex = partition(array, left, rigth);
+
+        quickSort(array, left, pivotIndex - 1);
+        quickSort(array, pivotIndex + 1, rigth);
+    }
+
+    private static int partition(int[] array, int left, int rigth){
+        int pointer = left;
+        int pivot = array[rigth];
+        for(int i = left; i < rigth; i++){
+            if(array[i] < pivot){
+                swap(array, i, pointer);
+                pointer++;
+            }
+        }
+        swap(array, pointer, rigth);
+        return pointer;
+    }
+
+    private static void swap(int[] array, int firstIndex, int secondIndex){
+        int intermediate = array[firstIndex];
+        array[firstIndex] = array[secondIndex];
+        array[secondIndex] = intermediate;
+    }
 }
