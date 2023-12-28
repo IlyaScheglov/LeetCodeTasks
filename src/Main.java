@@ -5,13 +5,6 @@ import static java.lang.Math.abs;
 
 public class Main {
     public static void main(String[] args) {
-        int[] answer = {2, 6, 7, 1, 9, 0, 22, 19};
-        quickSort(answer, 0, answer.length - 1);
-        StringBuilder builder = new StringBuilder();
-        for(int i = 0; i < answer.length; i++){
-            builder.append(" " + answer[i] + " ");
-        }
-        System.out.println(builder.toString());
     }
 
     private static int[] twoSum(int[] nums, int target) {
@@ -890,4 +883,109 @@ public class Main {
         array[firstIndex] = array[secondIndex];
         array[secondIndex] = intermediate;
     }
+
+    private static int search(int[] nums, int target) {
+        if(nums.length == 0){
+            return -1;
+        }
+
+        int leftIndex =0;
+        int rightIndex = nums.length - 1;
+
+        while (leftIndex <= rightIndex){
+            if(leftIndex == rightIndex){
+                if(nums[leftIndex] == target){
+                    return leftIndex;
+                }
+                else{
+                    return -1;
+                }
+            }
+            int mid = (leftIndex + rightIndex) / 2;
+
+            if(nums[mid] == target){
+                return mid;
+            }
+            else if(nums[leftIndex] <= nums[mid]) {
+                if (nums[leftIndex] <= target && target < nums[mid]) {
+                    rightIndex = mid - 1;
+                } else {
+                    leftIndex = mid + 1;
+                }
+            } else {
+                if (nums[mid] < target && target <= nums[rightIndex]) {
+                    leftIndex = mid + 1;
+                } else {
+                    rightIndex = mid - 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+/*
+    private static List<String> fullJustify(String[] words, int maxWidth) {
+        List<String> result = new ArrayList<>();
+        justify(words, maxWidth, result, 0);
+        return result;
+    }
+
+    private static void justify(String[] words, int maxWidth, List<String> result, int index){
+        if(index > words.length){
+            return;
+        }
+
+        int ourIndex = index;
+        int countChars = 0;
+        int countWords = 0;
+        StringJoiner joiner = new StringJoiner(" ");
+        while((countChars < maxWidth) && ourIndex < words.length){
+            if(countWords == 0){
+                countChars += words[ourIndex].length();
+            }
+            else if(countWords > 0){
+                countChars += words[ourIndex].length() + 1;
+            }
+            countWords++;
+            ourIndex++;
+        }
+        for(int i = index; i < ourIndex - 1; i++){
+            joiner.add(words[i]);
+        }
+
+        String str = joiner.toString();
+        if(str.length() == maxWidth){
+            result.add(str);
+        }
+        else{
+            int countSpaces = 0;
+            for(int j = 0; j < str.length(); j++){
+                if(str.charAt(j) == ' '){
+                    countSpaces++;
+                }
+            }
+            String spaces = "";
+            if(countSpaces == 0){
+                int howManySpacesAdd = maxWidth - str.length();
+                for(int k = 0; k < howManySpacesAdd; k++){
+                    spaces = spaces + " ";
+                }
+                result.add(str + spaces);
+            }
+            else{
+                int howManySpacesAdd = (maxWidth - str.length()) / countSpaces;
+                for(int k = 0; k < howManySpacesAdd; k++){
+                    spaces = spaces + " ";
+                }
+                str.replaceAll(" ", spaces);
+                result.add(str);
+            }
+        }
+
+        justify(words, maxWidth, result, ourIndex - 1);
+    }
+    */
+
+
 }
